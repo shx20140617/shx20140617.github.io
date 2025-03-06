@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>孙鹤轩的小站 | V0.0.3</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        :root {
+            --primary-color: #64b5f6;
+            --primary-light: #9be7ff;
+            --primary-dark: #2286c3;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --background-light: #f8f9fa;
+            --background-white: #ffffff;
+            --shadow-small: 0 2px 10px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-large: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --border-radius-small: 8px;
+            --border-radius-medium: 12px;
+            --border-radius-large: 20px;
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--background-white);
+            box-shadow: var(--shadow-small);
+            z-index: 1000;
+            transition: all var(--transition-normal);
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .navbar-scrolled {
+            padding: 0.5rem 0;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: all var(--transition-fast);
+        }
+
+        .logo:hover {
+            color: var(--primary-dark);
+        }
+
+        .logo-icon {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-left: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width var(--transition-normal);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* 页眉样式 */
+        .header {
+            padding-top: 7rem;
+            padding-bottom: 3rem;
+            text-align: center;
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s ease;
+        }
+
+        .header-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .header-announcements {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease 0.3s backwards;
+        }
+
+        .header-latest-update {
+            font-size: 1.5rem;
+            color: #54534D;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        /* 项目过滤器 */
+        .filter-container {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            background-color: var(--background-white);
+            border: 1px solid #eaeaea;
+            border-radius: var(--border-radius-small);
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            outline: none;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary-light);
+            color: var(--primary-color);
+            box-shadow: var(--shadow-small);
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* 项目网格 */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .project-card {
+            background-color: var(--background-white);
+            border-radius: var(--border-radius-medium);
+            overflow: hidden;
+            box-shadow: var(--shadow-small);
+            transition: all var(--transition-normal);
+            animation: fadeInUp 1s ease 0.6s backwards;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-large);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: all var(--transition-normal);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+            opacity: 0;
+            transition: opacity var(--transition-normal);
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-tag {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.8rem;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .project-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .project-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius-small);
+            font-weight: 500;
+            transition: all var(--transition-fast);
+        }
+
+        .project-link:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0;
+            animation: fadeInUp 1s ease 0.8s backwards;
+        }
+
+        .pagination-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 0.3rem;
+            border-radius: 50%;
+            border: 1px solid #eaeaea;
+            color: var(--text-secondary);
+            background-color: var(--background-white);
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .pagination-btn:hover {
+            color: var(--primary-color);
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-small);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* 页脚 */
+        .footer {
+            background-color: var(--background-white);
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 3rem;
+            box-shadow: var(--shadow-small);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--background-light);
+            color: var(--text-secondary);
+            transition: all var(--transition-fast);
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .footer-copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-medium);
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-normal);
+            z-index: 100;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+
+        /* 加载动画 */
+        .loader {
+            width: 50px;
+            height: 50px;
+            margin: 2rem auto;
+            border: 3px solid var(--primary-light);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 动画关键帧 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* 弹窗样式 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-normal);
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--background-white);
+            border-radius: var(--border-radius-large);
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform var(--transition-normal);
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .modal-close:hover {
+            color: var(--primary-color);
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-image {
+            width: 100%;
+            border-radius: var(--border-radius-medium);
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-small);
+        }
+
+        .modal-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-features {
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .feature-item {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .feature-item::before {
+            content: '\2022';
+            color: var(--primary-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius-small);
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+        }
+
+        .modal-btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .modal-btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .modal-btn-secondary {
+            background-color: var(--background-light);
+            color: var(--text-secondary);
+            border: 1px solid #eaeaea;
+        }
+
+        .modal-btn-secondary:hover {
+            background-color: #eaeaea;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .projects-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 250px;
+                height: 100vh;
+                background-color: var(--background-white);
+                flex-direction: column;
+                justify-content: flex-start;
+                padding-top: 5rem;
+                transition: right var(--transition-normal);
+                box-shadow: var(--shadow-large);
+                z-index: 999;
+            }
+
+            .nav-links.show {
+                right: 0;
+            }
+
+            .nav-item {
+                margin: 1rem 0;
+                padding: 0 2rem;
+                width: 100%;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                z-index: 1000;
+            }
+
+            .back-to-top {
+                bottom: 1rem;
+                right: 1rem;
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-container {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 1rem;
+            }
+
+            .header-title {
+                font-size: 1.8rem;
+            }
+
+            .header-subtitle {
+                font-size: 1rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+
+            .modal-footer {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 导航栏 -->
+<nav class="navbar">
+    <div class="container navbar-container">
+        <a href="#" class="logo">
+            <span class="logo-icon">✨</span>
+            <span>孙鹤轩的小站</span>
+        </a>
+        <button class="mobile-menu-btn">
+            <i class="menu-icon">☰</i>
+        </button>
+        <ul class="nav-links">
+            <li class="nav-item"><a href="#" class="nav-link active">首页</a></li>
+            <li class="nav-item"><a href="#projects" class="nav-link">项目</a></li>
+            <li class="nav-item"><a href="#about" class="nav-link">关于我</a></li>
+            <li class="nav-item"><a href="#contact" class="nav-link">联系方式</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- 页眉 -->
+<header class="header">
+    <div class="container">
+        <h1 class="header-title">欢迎来到孙鹤轩的作品集</h1>
+        <p class="header-subtitle">这里展示了我精心设计和开发的网页项目，每一个都凝聚了创意与技术的完美结合</p>
+        <p class="header-announcements">🔧🚧🚧🛠️ 该网站正在施工中，只是个界面展示，以后会加入一些真正的项目！</p>
+        <p class="header-announcements">👨‍💻🏗️ 网页完全是我自己做的，目前很不完善，绝大部分按钮都点不了，等着！</p>
+        <p class="header-latest-update">📢 上次更新：2025年3月6日 【艺术节比赛】新增互联网时间线网页项目 V0.0.5</p>
+    </div>
+</header>
+
+<!-- 主要内容 -->
+<main class="container">
+    <!-- 项目过滤器 -->
+    <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">全部</button>
+        <button class="filter-btn" data-filter="Web">网页设计</button>
+        <button class="filter-btn" data-filter="app">应用开发</button>
+        <button class="filter-btn" data-filter="ui">UI设计</button>
+        <button class="filter-btn" data-filter="graphic">平面设计</button>
+    </div>
+
+    <!-- 项目网格 -->
+    <div class="projects-grid" id="projects">
+        <!-- 项目卡片1 -->
+        <div class="project-card" data-category="Web">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%2364b5f6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='white'%3E全能加密器%3C/text%3E%3C/svg%3E" alt="全能加密器" class="project-image">
+            <div class="project-overlay"></div>
+            <div class="project-content">
+                <div class="project-tags">
+                    <span class="project-tag">HTML5</span>
+                    <span class="project-tag">CSS3</span>
+                    <span class="project-tag">JavaScript</span>
+                </div>
+                <h3 class="project-title">全能信息加密器  🎉即将上线</h3>
+                <p class="project-description">在线把任意文件藏进音频、图片！也可在线解密</p>
+                <a href="#" class="project-link" data-id="1">查看详情</a>
+            </div>
+        </div>
+
+        <!-- 项目卡片2 -->
+        <div class="project-card" data-category="app">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%234CAF50'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='white'%3E🏆 互联网时间线 🏁%3C/text%3E%3C/svg%3E" alt="互联网时间线" class="project-image">
+            <div class="project-overlay"></div>
+            <div class="project-content">
+                <div class="project-tags">
+                    <span class="project-tag">React</span>
+                    <span class="project-tag">Node.js</span>
+                    <span class="project-tag">MongoDB</span>
+                </div>
+                <h3 class="project-title">🏆艺术节作品 互联网时间线</h3>
+                <p class="project-description">【学校艺术节活动作品】这是互联网时间线，里面有互联网的发展历程，还能点击查看详情。不仅如此，还有有趣的知识小问答。网页界面简介现代。</p>
+                <a href="#" class="project-link" data-id="2">查看详情</a>
+            </div>
+        </div>
+
+        <!-- 项目卡片3 -->
+        <div class="project-card" data-category="ui">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23FF9800'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='white'%3EUI设计项目%3C/text%3E%3C/svg%3E" alt="UI设计项目" class="project-image">
+            <div class="project-overlay"></div>
+            <div class="project-content">
+                <div class="project-tags">
+                    <span class="project-tag">Figma</span>
+                    <span class="project-tag">UX/UI</span>
+                    <span class="project-tag">Prototyping</span>
+                </div>
+                <h3 class="project-title">电商平台UI设计</h3>
+                <p class="project-description">为电商平台设计的现代UI界面，注重用户体验和视觉美感，包含完整的用户流程和交互设计。</p>
+                <a href="#" class="project-link" data-id="3">查看详情</a>
+            </div>
+        </div>
+
+        <!-- 项目卡片4 -->
+        <div class="project-card" data-category="graphic">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%239C27B0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='white'%3E平面设计项目%3C/text%3E%3C/svg%3E" alt="平面设计项目" class="project-image">
+            <div class="project-overlay"></div>
+            <div class="project-content">
+                <div class="project-tags">
+                    <span class="project-tag">Photoshop</span>
+                    <span class="project-tag">Illustrator</span>
+                    <span class="project-tag">品牌设计</span>
+                </div>
+                <h3 class="project-title">企业品牌形象设计</h3>
+                <p class="project-description">为初创企业打造的完整品牌形象设计，包括logo设计、配色方案、名片、宣传材料等。</p>
+                <a href="#" class="project-link" data-id="4">查看详情</a>
+            </div>
+        </div>
+
+        <!-- 项目卡片5 -->
+        <div class="project-card" data-category="W">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23F44336'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='white'%3E网页设计项目%3C/text%3E%3C/svg%3E" alt="网页设计项目" class="project-image">
+            <div class="project-overlay"></div>
+            <div class="project-content">
+                <div class="project-tags">
+                    <span class="project-tag">Vue.js</span>
+                    <span class="project-tag">SCSS</span>
+                    <span class="project-tag">Firebase</span>
+                </div>
+                <h3 class="project-title">在线教育平台</h3>
+                <p class="project-description">为教育机构设计开发的在线课程平台，支持视频教学、作业提交、师生互动等功能。</p>
+                <a href="#" class="project-link" data-id="5">查看详情</a>
+            </div>
+        </div>
+
+        <!-- 项目卡片6 -->
+        <div class="project-card" data-category="app">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23009688'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='20' fill='white'%3E🏆 互联网时间线 🏁%3C/text%3E%3C/svg%3E" alt="互联网时间线" class="project-image">
+            <div class="project-overlay"></div>
+            <div class="project-content">
+                <div class="project-tags">
+                    <span class="project-tag">Flutter</span>
+                    <span class="project-tag">Dart</span>
+                    <span class="project-tag">Firebase</span>
+                </div>
+                <h3 class="project-title">跨平台健康追踪应用</h3>
+                <p class="project-description">帮助用户追踪健康数据的跨平台应用，支持活动记录、饮食追踪、睡眠分析等功能。</p>
+                <a href="#" class="project-link" data-id="6">查看详情</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载更多 -->
+    <div class="loader" id="loader"></div>
+    <div class="pagination">
+        <button class="pagination-btn active">1</button>
+        <button class="pagination-btn">2</button>
+        <button class="pagination-btn">3</button>
+        <button class="pagination-btn">
+            <span>›</span>
+        </button>
+    </div>
+</main>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <div class="container footer-content">
+        <div class="footer-logo">孙鹤轩的小站</div>
+        <ul class="footer-links">
+            <li><a href="#" class="footer-link">首页</a></li>
+            <li><a href="#projects" class="footer-link">项目</a></li>
+            <li><a href="#about" class="footer-link">关于我</a></li>
+            <li><a href="#contact" class="footer-link">联系方式</a></li>
+        </ul>
+        <div class="footer-social">
+            <a href="#" class="social-link">
+                <span>微信</span>
+            </a>
+            <a href="#" class="social-link">
+                <span>微博</span>
+            </a>
+            <a href="#" class="social-link">
+                <span>知乎</span>
+            </a>
+            <a href="https://github.com/shx20140617" class="social-link">
+                <span>GitHub</span>
+            </a>
+        </div>
+        <p class="footer-copyright">上海市浦东新区 建平南汇实验学校 五（1）班 孙鹤轩 45号</p>
+    </div>
+</footer>
+
+<!-- 返回顶部按钮 -->
+<div class="back-to-top">↑</div>
+
+<!-- 项目详情弹窗 -->
+<div class="modal" id="projectModal">
+    <div class="modal-content">
+        <button class="modal-close">×</button>
+        <div class="modal-header">
+            <h2 class="modal-title">项目标题</h2>
+            <p class="modal-subtitle">项目分类 · 完成日期</p>
+        </div>
+        <div class="modal-body">
+            <img src="" alt="项目图片" class="modal-image" id="modalImage">
+            <div class="modal-description">项目详细描述将在这里显示...</div>
+            <div class="modal-features">
+                <h4 class="feature-title">主要功能</h4>
+                <ul class="feature-list" id="featureList">
+                    <!-- 功能列表将在这里动态添加 -->
+                </ul>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="modal-btn modal-btn-secondary" id="modalPrev">查看源代码</a>
+            <a href="Internet-Timeline/index.html" class="modal-btn modal-btn-primary" id="modalDemo">查看演示</a>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    // 项目数据
+    const projects = [
+        {
+            id: 1,
+            title: "全能信息加密器  🎉即将上线",
+            category: "Web",
+            date: "2025年3月",
+            description: "这是万能的信息隐藏器，可以把文本藏在图片、音乐、音频里，把各种格式的文件藏进图片、音频、视频里，并且浏览器点开即用。支持加密和解密，快速高效。",
+            image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%2364b5f6'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='40' fill='white'%3E🔐 全能加密器 🛡️%3C/text%3E%3C/svg%3E",
+            features: [
+                "在线使用，随时使用",
+                "现代化界面，简洁优雅",
+                "超快的速度",
+                "代码结构干净整洁",
+                "跨浏览器兼容性"
+            ],
+            demo: "#",
+            code: "#"
+        },
+        {
+            id: 2,
+            title: "【艺术节参赛作品】互联网时间线",
+            category: "Web",
+            date: "2025年3月",
+            description: "【学校艺术节原版上传作品】这是一个互联网时间线，可以让你看到互联网的发展历程，还配有知识问答小题目，并且互联网卡片可以点开查看更多信息。",
+            image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%234CAF50'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='40' fill='white'%3E🏆 互联网时间线 🏁%3C/text%3E%3C/svg%3E",
+            features: [
+                "详细的发展说明",
+                "知识问答小题目",
+                "简洁的界面"
+            ],
+            demo: "Internet-Timeline/index.html",
+            code: "#"
+        },
+        {
+            id: 3,
+            title: "电商平台UI设计",
+            category: "ui",
+            date: "2024年12月",
+            description: "为电商平台设计的现代化UI界面，以用户体验为中心，结合了美观与实用性。设计过程从用户研究开始，通过用户旅程地图和原型设计，最终形成完整的高保真设计。界面采用简约风格，强调产品展示，同时优化了购物流程，使用户可以轻松完成从浏览到下单的全过程。",
+            image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23FF9800'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='40' fill='white'%3E电商平台UI设计%3C/text%3E%3C/svg%3E",
+            features: [
+                "用户研究和旅程地图",
+                "线框图和低保真原型",
+                "高保真UI设计",
+                "响应式布局设计",
+                "用户测试和迭代",
+                "设计系统和组件库"
+            ],
+            demo: "#",
+            code: "#"
+        },
+        {
+            id: 4,
+            title: "企业品牌形象设计",
+            category: "graphic",
+            date: "2024年11月",
+            description: "为一家初创科技公司设计的完整品牌形象，包括标志、配色方案、字体选择和应用规范。设计理念来源于公司的核心价值观和市场定位，通过现代简约的风格表达技术与创新。此项目涵盖了从品牌战略到执行的所有环节，最终交付了全面的品牌视觉系统和使用指南。",
+            image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%239C27B0'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='40' fill='white'%3E企业品牌形象设计%3C/text%3E%3C/svg%3E",
+            features: [
+                "品牌战略和定位",
+                "标志设计（Logo）",
+                "色彩系统和字体选择",
+                "名片、信纸等办公用品设计",
+                "宣传材料模板",
+                "品牌指南手册"
+            ],
+            demo: "#",
+            code: "#"
+        },
+        {
+            id: 5,
+            title: "在线教育平台",
+            category: "Web",
+            date: "2024年10月",
+            description: "一个专为教育机构设计的在线学习平台，支持视频课程、直播教学、作业管理和学生评估。平台采用Vue.js框架开发，结合SCSS进行样式管理，Firebase提供后端服务。系统围绕学习体验设计，提供直观的导航和课程管理，同时为教师提供完善的教学工具和数据分析功能。",
+            image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23F44336'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='40' fill='white'%3E在线教育平台%3C/text%3E%3C/svg%3E",
+            features: [
+                "视频课程和直播教学",
+                "作业提交和评分系统",
+                "讨论区和师生互动",
+                "学习进度跟踪",
+                "成绩管理和数据分析",
+                "移动端适配"
+            ],
+            demo: "#",
+            code: "#"
+        },
+        {
+            id: 6,
+            title: "跨平台健康追踪应用",
+            category: "app",
+            date: "2024年9月",
+            description: "使用Flutter开发的跨平台健康管理应用，帮助用户记录和分析健康数据。应用支持活动追踪、饮食记录、睡眠监测和健康目标设定。界面设计清新简约，数据可视化直观易懂，帮助用户了解自己的健康状况。应用还提供个性化的健康建议和提醒功能，促进用户养成健康习惯。",
+            image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400'%3E%3Crect width='800' height='400' fill='%23009688'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='40' fill='white'%3E跨平台健康追踪应用%3C/text%3E%3C/svg%3E",
+            features: [
+                "活动和运动记录",
+                "饮食追踪和营养分析",
+                "睡眠质量监测",
+                "健康数据可视化",
+                "个性化目标设定",
+                "健康提醒和建议",
+                "支持iOS和Android平台"
+            ],
+            demo: "#",
+            code: "#"
+        }
+    ];
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 导航栏滚动效果
+        const navbar = document.querySelector('.navbar');
+        const navbarContainer = document.querySelector('.navbar-container');
+        const backToTop = document.querySelector('.back-to-top');
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+                backToTop.classList.add('visible');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // 移动端菜单
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        const menuIcon = document.querySelector('.menu-icon');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            navLinks.classList.toggle('show');
+            if (navLinks.classList.contains('show')) {
+                menuIcon.textContent = '✕';
+            } else {
+                menuIcon.textContent = '☰';
+            }
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+                // 关闭移动菜单
+                if (navLinks.classList.contains('show')) {
+                    navLinks.classList.remove('show');
+                    menuIcon.textContent = '☰';
+                }
+            });
+        });
+
+        // 返回顶部按钮
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 项目过滤
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 移除所有active类
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // 添加当前active类
+                this.classList.add('active');
+
+                const filter = this.getAttribute('data-filter');
+
+                projectCards.forEach(card => {
+                    // 显示所有
+                    if (filter === 'all') {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 10);
+                    }
+                    // 只显示匹配的
+                    else if (card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 10);
+                    }
+                    // 隐藏不匹配的
+                    else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // 项目详情弹窗
+        const modal = document.getElementById('projectModal');
+        const modalTitle = document.querySelector('.modal-title');
+        const modalSubtitle = document.querySelector('.modal-subtitle');
+        const modalImage = document.getElementById('modalImage');
+        const modalDescription = document.querySelector('.modal-description');
+        const featureList = document.getElementById('featureList');
+        const modalDemo = document.getElementById('modalDemo');
+        const modalPrev = document.getElementById('modalPrev');
+        const modalClose = document.querySelector('.modal-close');
+
+        // 打开弹窗
+        document.querySelectorAll('.project-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const projectId = parseInt(this.getAttribute('data-id'));
+                const project = projects.find(p => p.id === projectId);
+
+                if (project) {
+                    modalTitle.textContent = project.title;
+                    modalSubtitle.textContent = `${project.category} · ${project.date}`;
+                    modalImage.src = project.image;
+                    modalImage.alt = project.title;
+                    modalDescription.textContent = project.description;
+
+                    // 清空并添加功能列表
+                    featureList.innerHTML = '';
+                    project.features.forEach(feature => {
+                        const li = document.createElement('li');
+                        li.className = 'feature-item';
+                        li.textContent = feature;
+                        featureList.appendChild(li);
+                    });
+
+                    modalDemo.href = project.demo;
+                    modalPrev.href = project.code;
+
+                    modal.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // 关闭弹窗
+        modalClose.addEventListener('click', function() {
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        });
+
+        // 点击弹窗外部关闭弹窗
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // 分页按钮
+        const paginationBtns = document.querySelectorAll('.pagination-btn');
+
+        paginationBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                paginationBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // 这里可以根据需要添加加载新页面的逻辑
+                // 模拟加载过程
+                const loader = document.getElementById('loader');
+                const projectsGrid = document.querySelector('.projects-grid');
+
+                projectsGrid.style.opacity = '0.5';
+                loader.style.display = 'block';
+
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    projectsGrid.style.opacity = '1';
+
+                    // 这里可以添加新项目的加载逻辑
+                }, 800);
+            });
+        });
+
+        // 项目卡片动画
+        projectCards.forEach((card, index) => {
+            card.style.animationDelay = `${0.1 * index}s`;
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+/* 全局样式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+.py-3 {
+    padding: 3rem 0;
+}
+
+/* 首页 (Banner) */
+#home {
+    background: url('internet-bg.jpg') no-repeat center center/cover; /* 替换为你的背景图片 */
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+}
+
+#home .header-content {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#home h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background-color: #555;
+}
+
+/* 时间轴 */
+#timeline {
+    background-color: #fff;
+}
+
+#timeline h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 50px auto;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: #333;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+}
+
+.timeline-container {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+}
+
+.timeline-container::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -17px;
+    background-color: white;
+    border: 4px solid #333;
+    top: 15px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.left {
+    left: 0;
+}
+
+.right {
+    left: 50%;
+}
+
+.right::after {
+    left: -16px;
+}
+
+.timeline-content {
+    background-color: white;
+    border: 1px solid #333;
+    padding: 15px;
+    border-radius: 15px;
+    position: relative;
+}
+
+
+/* 知识问答 */
+#quiz {
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+#quiz-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin: auto;
+}
+
+#options button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+#options button:hover {
+    background-color: #ddd;
+}
+
+#submit-btn {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#submit-btn:hover {
+    background-color: #555;
+}
+
+#result {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+/* 关于 */
+#about {
+    background-color: #fff;
+}
+
+/* 底部信息栏 */
+#main-footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+/* 响应式设计（此部分由 Deepseek 辅助生成） */
+@media (max-width: 768px) {
+    #navbar .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    #navbar ul {
+        flex-direction: column;
+    }
+
+    #navbar ul li {
+        margin: 10px 0;
+    }
+
+    #home {
+        height: auto;
+        padding: 5rem 0;
+    }
+
+    #home h1 {
+        font-size: 2.5rem;
+    }
+
+    .timeline::after {
+        left: 31px;
+    }
+
+    .timeline-container {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+
+    .timeline-container::after {
+        left: 24px;
+    }
+
+    .right {
+        left: 0%;
+    }
+}
+
+.timeline-container {
+        position: relative;
+    }
+
+    .timeline-popup {
+        display: none;
+        position: absolute;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        padding: 15px;
+        width: 300px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        z-index: 10;
+    }
+
+    .timeline-popup img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .timeline-popup h4 {
+        margin-top: 0;
+        font-size: 1rem;
+    }
+
+    .timeline-popup a {
+        display: inline-block;
+        margin-top: 10px;
+        color: #0066cc;
+        text-decoration: none;
+    }
+
+    .timeline-popup a:hover {
+        text-decoration: underline;
+    }
+
+    /* 为左侧和右侧的弹出窗口设置不同的位置 */
+    .left .timeline-popup {
+        left: 50%;
+        top: 0;
+    }
+
+    .right .timeline-popup {
+        right: 50%;
+        top: 0;
+    }
+
+    @media (max-width: 768px) {
+        .timeline-popup {
+            left: 100% !important;
+            right: auto !important;
+            top: 0 !important;
+        }
+    }
